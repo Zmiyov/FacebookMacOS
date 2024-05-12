@@ -11,6 +11,9 @@
 		A5C822ED2BEFC74D006F3757 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C822EC2BEFC74D006F3757 /* ContentView.swift */; };
 		A5C822EF2BEFC74E006F3757 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A5C822EE2BEFC74E006F3757 /* Assets.xcassets */; };
 		A5C822F22BEFC74E006F3757 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A5C822F12BEFC74E006F3757 /* Preview Assets.xcassets */; };
+		A5C822FB2BEFC824006F3757 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = A5C822FA2BEFC824006F3757 /* SDWebImageSwiftUI */; };
+		A5C822FE2BEFC84B006F3757 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C822FD2BEFC84B006F3757 /* Home.swift */; };
+		A5C823012BEFEDF0006F3757 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C823002BEFEDF0006F3757 /* User.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +23,8 @@
 		A5C822EE2BEFC74E006F3757 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A5C822F12BEFC74E006F3757 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		A5C822F32BEFC74E006F3757 /* FacebookMacOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FacebookMacOS.entitlements; sourceTree = "<group>"; };
+		A5C822FD2BEFC84B006F3757 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
+		A5C823002BEFEDF0006F3757 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -27,6 +32,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5C822FB2BEFC824006F3757 /* SDWebImageSwiftUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -52,6 +58,8 @@
 		A5C822E92BEFC74D006F3757 /* FacebookMacOS */ = {
 			isa = PBXGroup;
 			children = (
+				A5C822FF2BEFEDE4006F3757 /* Model */,
+				A5C822FC2BEFC841006F3757 /* View */,
 				A5C822EA2BEFC74D006F3757 /* FacebookMacOSApp.swift */,
 				A5C822EC2BEFC74D006F3757 /* ContentView.swift */,
 				A5C822EE2BEFC74E006F3757 /* Assets.xcassets */,
@@ -67,6 +75,22 @@
 				A5C822F12BEFC74E006F3757 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		A5C822FC2BEFC841006F3757 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				A5C822FD2BEFC84B006F3757 /* Home.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		A5C822FF2BEFEDE4006F3757 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				A5C823002BEFEDF0006F3757 /* User.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -85,6 +109,9 @@
 			dependencies = (
 			);
 			name = FacebookMacOS;
+			packageProductDependencies = (
+				A5C822FA2BEFC824006F3757 /* SDWebImageSwiftUI */,
+			);
 			productName = FacebookMacOS;
 			productReference = A5C822E72BEFC74D006F3757 /* FacebookMacOS.app */;
 			productType = "com.apple.product-type.application";
@@ -113,6 +140,9 @@
 				Base,
 			);
 			mainGroup = A5C822DE2BEFC74D006F3757;
+			packageReferences = (
+				A5C822F92BEFC824006F3757 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
+			);
 			productRefGroup = A5C822E82BEFC74D006F3757 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -139,7 +169,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5C823012BEFEDF0006F3757 /* User.swift in Sources */,
 				A5C822ED2BEFC74D006F3757 /* ContentView.swift in Sources */,
+				A5C822FE2BEFC84B006F3757 /* Home.swift in Sources */,
 				A5C822EB2BEFC74D006F3757 /* FacebookMacOSApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -341,6 +373,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A5C822F92BEFC824006F3757 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.4;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A5C822FA2BEFC824006F3757 /* SDWebImageSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A5C822F92BEFC824006F3757 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
+			productName = SDWebImageSwiftUI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A5C822DF2BEFC74D006F3757 /* Project object */;
 }

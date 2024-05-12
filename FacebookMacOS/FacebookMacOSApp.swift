@@ -13,5 +13,6 @@ struct FacebookMacOSApp: App {
         WindowGroup {
             ContentView()
         }
+        .windowStyle(HiddenTitleBarWindowStyle())
     }
 }
