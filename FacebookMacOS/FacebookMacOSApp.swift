@@ -16,3 +16,12 @@ struct FacebookMacOSApp: App {
         .windowStyle(HiddenTitleBarWindowStyle())
     }
 }
+
+// Hiding TextField Ring
+
+extension NSTextField{
+    open override var focusRingType: NSFocusRingType {
+        get{.none}
+        set{}
+    }
+}

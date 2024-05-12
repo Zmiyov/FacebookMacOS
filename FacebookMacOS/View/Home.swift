@@ -12,9 +12,12 @@ struct Home: View {
     
     var screen = NSScreen.main!.visibleFrame
     
+    @State var selected = "house.fill"
+    @Namespace var animation
+    
     var body: some View {
         VStack(spacing: 0) {
-            ZStack {
+            ZStack(alignment: Alignment(horizontal: .center, vertical: .bottom)) {
                 HStack {
                     Text("facebook")
                         .font(.largeTitle)
@@ -49,7 +52,7 @@ struct Home: View {
                     .padding(.leading, 8)
                     
                     Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
-                         Image("messanger")
+                        Image("messanger")
                             .resizable()
                             .aspectRatio(contentMode: .fill)
                             .frame(width: 20, height: 20)
@@ -64,7 +67,17 @@ struct Home: View {
                 .padding(.trailing)
                 .padding(.top, 12)
                 .background(.white)
-            .shadow(color: .black.opacity(0.08), radius: 5, x: 0, y: 5)
+                .shadow(color: .black.opacity(0.08), radius: 5, x: 0, y: 5)
+                
+                HStack{
+                    
+                    TabButton(image: "house.fill", selected: $selected, animation: animation )
+                    TabButton(image: "play.tv", selected: $selected, animation: animation )
+                    TabButton(image: "person.circle", selected: $selected, animation: animation )
+                    TabButton(image: "person.3.fill", selected: $selected, animation: animation )
+                    TabButton(image: "bell", selected: $selected, animation: animation )
+                    TabButton(image: "line.horizontal.3", selected: $selected, animation: animation )
+                }
             }
             
             HStack{
@@ -81,6 +94,45 @@ struct Home: View {
         .frame(width: screen.width / 1.4, height: screen.height - 60)
         .background(Color.bg)
         .preferredColorScheme(.light)
+    }
+}
+
+struct TabButton: View {
+    
+    var image: String
+    @Binding var selected: String
+    var animation: Namespace.ID
+    
+    var body: some View {
+        Button(action: {
+            withAnimation {
+                selected = image
+            }
+        }, label: {
+            VStack(spacing: 0){
+                Image(systemName: image)
+                    .font(.title)
+                    .foregroundStyle(selected == image ? .fb : .gray.opacity(0.7))
+                    .frame(height: 40)
+                
+                ZStack {
+                    Capsule()
+                        .fill(.clear)
+                        .frame(width: 65, height: 3)
+                        .matchedGeometryEffect(id: "Tab", in: animation)
+                    
+                    if selected == image {
+                        Capsule()
+                            .fill(.fb)
+                            .frame(width: 65, height: 3)
+                            .matchedGeometryEffect(id: "Tab", in: animation)
+                    }
+                }
+            }
+            
+
+        })
+        .buttonStyle(PlainButtonStyle())
     }
 }
 
@@ -118,17 +170,104 @@ struct SideBarButton: View {
     }
 }
 
-#Preview {
-    Home()
-}
-
 struct PostView: View {
+    @State var post = ""
+    
     var body: some View {
         
         ScrollView {
             
             VStack{
                 
+                VStack{
+                    
+                    HStack{
+                        Image(.logo)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 35, height: 35)
+                            .clipShape(Circle())
+                        TextField("What's in your mind", text: $post)
+                            .textFieldStyle(.plain)
+                    }
+                    
+                    Divider()
+                    
+                    HStack{
+                        
+                        Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
+                            Label(title: { Text("Live").foregroundStyle(.black) },
+                                  icon: { Image(systemName: "video.fill")
+                                    .foregroundStyle(.red)
+                            })
+                            .frame(maxWidth: .infinity)
+                        })
+                         .buttonStyle(PlainButtonStyle())
+                        
+                        Divider()
+                            .padding(.vertical, -5)
+                        
+                        Button(action: {}, label: {
+                            Label(title: { Text("Photos").foregroundStyle(.black) },
+                                  icon: { Image(systemName: "photo.on.rectangle")
+                                    .foregroundStyle(.green)
+                            })
+                            .frame(maxWidth: .infinity)
+                        })
+                         .buttonStyle(PlainButtonStyle())
+                        
+                        Divider()
+                            .padding(.vertical, -5)
+                        
+                        Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
+                            Label(title: { Text("Room").foregroundStyle(.black) },
+                                  icon: { Image(systemName: "video.fill.badge.plus")
+                                    .foregroundStyle(.purple)
+                            })
+                            .frame(maxWidth: .infinity)
+                        })
+                         .buttonStyle(PlainButtonStyle())
+                    }
+                }
+                .padding(10)
+                .background(.white)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+                
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack{
+                        
+                        Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
+                            Label(
+                                title: { Text("Create Room") },
+                                icon: { Image(systemName: "video.badge.plus").foregroundStyle(.purple) }
+                            )
+                            .padding(10)
+                            .background(Capsule().strokeBorder(.purple))
+                        })
+                        .buttonStyle(PlainButtonStyle())
+                        
+                        ForEach(users) { user in
+                            ZStack(alignment: Alignment(horizontal: .trailing, vertical: .bottom), content: {
+                                WebImage(url: URL(string: user.url) )
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 35, height: 35)
+                                    .clipShape(Circle())
+                                
+                                Circle()
+                                    .fill(.green)
+                                    .frame(width: 10, height: 10)
+                            })
+                        }
+                    }
+                    .padding(10)
+                }
+                .background(.white)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+                
+                ForEach(posts) { post in
+                    PostCardView(post: post)
+                }
             }
             .padding()
         }
@@ -207,4 +346,125 @@ struct ContactsView: View {
         }
         .frame(maxWidth: (screen.width / 1.8) / 4, maxHeight: .infinity)
     }
+}
+
+struct PostCardView: View {
+    
+    var post: Post
+    
+    var body: some View {
+        VStack{
+            
+            HStack{
+                
+                WebImage(url: URL(string: post.user.url)!)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 35, height: 35)
+                    .clipShape(Circle())
+                
+                VStack(alignment: .leading, spacing: 5){
+                    Text(post.user.name)
+                        .foregroundStyle(.black)
+                    
+                    HStack(spacing: 5){
+                        Text(post.postTime)
+                            .foregroundStyle(.gray)
+                        
+                        Circle()
+                            .fill(.gray)
+                            .frame(width: 3, height: 3)
+                        Image(systemName: "globe")
+                            .foregroundStyle(.gray)
+
+                    }
+                }
+                Spacer()
+                
+                Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
+                    Image("menu")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 18, height: 18)
+                        .foregroundStyle(.black)
+                        .rotationEffect(.init(degrees: 90))
+                })
+                .buttonStyle(PlainButtonStyle())
+            }
+            .padding(.horizontal, 10)
+            
+            Text(post.title)
+                .foregroundStyle(.black)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal, 10)
+            
+            WebImage(url: URL(string: post.imageURL)!)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+            
+            HStack{
+                Image(systemName: "hand.thumbsup.fill")
+                    .foregroundStyle(.fb)
+                 
+                Text(post.likes)
+                
+                Spacer()
+                
+                Text("\(post.comments) Comments")
+                    .foregroundStyle(.gray)
+                
+                Text("\(post.shares) Shares")
+                    .foregroundStyle(.gray)
+            }
+            .padding(.horizontal,10)
+            .padding(.top,5)
+            
+            Divider()
+            
+            HStack{
+                
+                Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
+                    Label(title: { Text("Like") },
+                          icon: { Image(systemName: "hand.thumbsup") }
+                    )
+                    .foregroundStyle(.gray)
+                    .frame(maxWidth: .infinity)
+                })
+                 .buttonStyle(PlainButtonStyle())
+                
+                Divider()
+                    .padding(.vertical, -5)
+                
+                Button(action: {}, label: {
+                    Label(title: { Text("Comment") },
+                          icon: { Image(systemName: "arrow.up.message") }
+                    )
+                    .foregroundStyle(.gray)
+                    .frame(maxWidth: .infinity)
+                })
+                 .buttonStyle(PlainButtonStyle())
+                
+                Divider()
+                    .padding(.vertical, -5)
+                
+                Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
+                    Label(title: { Text("Share") },
+                          icon: { Image(systemName: "square.and.arrow.up") }
+                    )
+                    .foregroundStyle(.gray)
+                    .frame(maxWidth: .infinity)
+                })
+                 .buttonStyle(PlainButtonStyle())
+            }
+            .padding(.horizontal,10)
+            .padding(.top,10)
+        }
+        .padding(.vertical)
+        .background(.white)
+        .clipShape(RoundedRectangle(cornerRadius: 10))
+    }
+}
+
+#Preview {
+    Home()
 }
